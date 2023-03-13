@@ -2,7 +2,8 @@ const toolbox = require("../self_modules/toolbox");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const data = require("../data.json");
-const _ = require("lodash")
+const _ = require("lodash");
+const {winstonLogError, winstonLogInfo} = require("../self_modules/toolbox");
 let blogMessages = [];
 
 exports.connectUser = (req, res) => {
@@ -21,6 +22,7 @@ exports.connectUser = (req, res) => {
         } else {
             bcrypt.compare(body.password, user.password, function (error, result) {
                 if (error) {
+                    winstonLogError(error);
                     res.status(500).send(error + '. Please contact the webmaster')
                 } else if (result) {
                     const token = jwt.sign({ user_id: user.id, user_role: user.role }, process.env.ACCESS_TOKEN_SECRET);
@@ -41,7 +43,8 @@ exports.fetchDataUser = (req, res) => {
         }
     });
     if(usr == null) {
-        res.status(500).send('Wrong cookies data. Please contact the webmaster')
+        winstonLogError("wrong cookie data");
+        res.status(500).send('Wrong cookies data. Please contact the webmaster');
     } else {
         delete usr.password
         res.status(200).json(usr);
@@ -63,12 +66,28 @@ exports.fetchBlogMessages = (req, res) => {
     res.status(200).json(blogMessages);
 }
 
-exports.createBlogmessage = (req, res) => {
-    let body = req.body
+exports.createBlogMessage = (req, res) => {
+
+    let body = req.body;
+    if (detectXSS(body.message)){
+        winstonLogInfo("XSS attack attempt detected");
+    }
     if(body.message === null || body.message === "") {
         res.status(400).send('Cannot add an empty message');
     } else {
-        blogMessages.push(body.message)
+        blogMessages.push(body.message);
+        winstonLogInfo("new blog message : " + body.message);
         res.status(200).send("Message Added");
     }
+}
+
+function containScriptTag(text) {
+    const regex = /<script\b[^>]*>([\s\S]*?)<\/script>/gm;
+    return regex.test(text);
+}
+
+function detectXSS(text) {
+    //exemple : <img onError=alert('Hacked.') src='invalid.url.com'>
+    const regex = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>|on\w+\s*=/i;
+    return regex.test(text);
 }
