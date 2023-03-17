@@ -6,8 +6,11 @@ import '../assets/css/main.css'
 function ButtonUser({handleClick}) {
     return (
         <>
-            Si tu souhaites afficher ton secret, clique sur le bouton ci-dessous ↴ ↯
-            <button onClick={handleClick}>Ce bouton !</button>
+            <div className={"my-4 flex flex-col"}>
+                Si tu souhaites afficher ton secret, clique sur le bouton ci-dessous ↴
+                <button className={"rounded bg-black p-4 font-mono text-white"} onClick={handleClick}>↯ Ce bouton !</button>
+            </div>
+
         </>
     );
 }

@@ -10,6 +10,7 @@ exports.connectUser = (req, res) => {
     let body = req.body
     let user = null
     if (!toolbox.checkMail(body.mail)) {
+        winstonLogError(`Wrong mail format : ${body.mail}`);
         res.status(400).send('The mail doesn\'t use a correct format');
     } else {
         data.forEach(el => {
@@ -28,6 +29,7 @@ exports.connectUser = (req, res) => {
                     const token = jwt.sign({ user_id: user.id, user_role: user.role }, process.env.ACCESS_TOKEN_SECRET);
                     res.status(200).json({ token, role: user.role })
                 } else {
+                    winstonLogError(`'Invalid authentication': ${body.mail} | ${body.password}`);
                     res.status(403).send('Invalid authentication')
                 }
             });
@@ -59,6 +61,7 @@ exports.getVictory = (req, res) => {
         delete usr.password
         usrList.push(usr)
     });
+
     res.status(200).json(usrList);
 }
 
@@ -81,10 +84,6 @@ exports.createBlogMessage = (req, res) => {
     }
 }
 
-function containScriptTag(text) {
-    const regex = /<script\b[^>]*>([\s\S]*?)<\/script>/gm;
-    return regex.test(text);
-}
 
 function detectXSS(text) {
     //exemple : <img onError=alert('Hacked.') src='invalid.url.com'>

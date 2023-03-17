@@ -2,7 +2,7 @@ import React from "react";
 import { Redirect } from 'react-router-dom'
 
 // core components
-import '../assets/css/main.css'
+import '../../src/assets/css/site.css'
 import axios from "axios";
 import tools from "../toolBox"
 
@@ -39,6 +39,16 @@ class Index extends React.Component {
     this.setState({ showSecret: !this.state.showSecret })
   }
 
+  logout(){
+    // retrieve all cookies
+    var Cookies = document.cookie.split(';');
+    // set past expiry to all cookies
+    for (var i = 0; i < Cookies.length; i++) {
+      document.cookie = Cookies[i] + "=; expires="+ new Date(0).toUTCString();
+    }
+    window.location.href = "";
+  }
+
   fetchData() {
     axios.get(this.state.url + '/user', {
       headers: {
@@ -63,10 +73,15 @@ class Index extends React.Component {
     if (this.state.isLoading) return (<p>Please wait...</p>);
     return (
       <>
-        <div>
-          Ravi de te voir {this.state.mail},
-          <ButtonUser handleClick={this.toggleSecret} />
-          {this.state.showSecret ? <div>{this.state.secret}</div> : <div>***************</div>}
+        <div className={"w-full p-4"}>
+            <button className={"rounded bg-blue-600 p-2 font-mono text-white"} onClick={this.logout}>logout</button>
+            <div className={"container mx-auto p-8"}>
+              <div className={"w-80 mx-auto rounded bg-blue-400 p-4 font-mono"}>
+                Ravi de te voir <span className={"text-white font-bold"}>{this.state.mail}</span>,
+                <ButtonUser handleClick={this.toggleSecret} />
+                {this.state.showSecret ? <div className={"py-4 text-center bg-white rounded p-4"} >{this.state.secret}</div> : <div>***************</div>}
+              </div>
+            </div>
         </div>
       </>
     )

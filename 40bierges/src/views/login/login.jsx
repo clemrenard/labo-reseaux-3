@@ -70,11 +70,25 @@ class Login extends React.Component {
     if (this.state.redirectedAdmin) return (<Redirect to="/admin" />)
     return (
       <>
-        <div>
-          <input type="text" name="mail" value={this.state.mail} onChange={this.handleChange}></input>
-          <input type="password" name="password" value={this.state.password} onChange={this.handleChange}></input>
-          <button onClick={this.handleConnect}>Se connecter</button>
+        <div className="container mx-auto p-8">
+          <h1 className={"text-center font-mono text-blue-600 text-2xl py-4"}>Ofc developed by Blue Team</h1>
+          <p className={"text-center text-2xl py-4"}>&#128526;</p>
+          <div className="p-6 bg-blue-600 rounded w-80 mx-auto">
+            <div className="px-4 flex flex-col">
+              <label htmlFor="mail" className={"text-white font-bold font-mono"}>Email</label>
+              <input id="mail" type="text" name="mail" value={this.state.mail} className={"px-2 font-mono"} onChange={this.handleChange}></input>
+            </div>
+            <div className="px-4 flex flex-col">
+              <label htmlFor="password" className={"text-white font-bold font-mono"}>Password</label>
+              <input id="password" type="password" name="password" value={this.state.password}  className={"px-2 font-mono"} onChange={this.handleChange}></input>
+            </div>
+            <div className="p-4 flex flex-col">
+              <button onClick={this.handleConnect} className={"ml-auto hover:opacity-60 font-bold rounded p-2 bg-black text-white font-mono"}>Se connecter</button>
+            </div>
+
+          </div>
         </div>
+
       </>
     )
   }
