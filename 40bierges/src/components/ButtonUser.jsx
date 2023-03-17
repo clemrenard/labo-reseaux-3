@@ -10,7 +10,6 @@ function ButtonUser({handleClick}) {
                 Si tu souhaites afficher ton secret, clique sur le bouton ci-dessous ↴
                 <button className={"rounded bg-black p-4 font-mono text-white"} onClick={handleClick}>↯ Ce bouton !</button>
             </div>
-
         </>
     );
 }

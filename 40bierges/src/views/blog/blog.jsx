@@ -83,8 +83,13 @@ class Blog extends React.Component {
     if (this.state.isLoading) return (<p>Please wait...</p>);
     return (
       <>
-        <div>
-          <textarea name="newMessage" value={this.state.newMessage} onChange={this.handleChange}></textarea>
+        <div className="container mx-auto p-8">
+          <h1 className={"text-center font-mono text-blue-600 text-2xl py-4"}>
+            Welcome to our wonderful blog
+          </h1>
+          <p className={"text-center text-2xl py-4"}>&#128526;</p>
+          <div className="p-6 bg-blue-600 rounded w-80 mx-auto">
+          <textarea className={"w-full"} name="newMessage" value={this.state.newMessage} onChange={this.handleChange}></textarea>
           <button onClick={this.handleSend}>Poster ce nouveau message</button>
           {this.state.messages.map((message, index) => {
             return (
@@ -93,6 +98,7 @@ class Blog extends React.Component {
               </div>
             )
           })}
+          </div>
         </div>
       </>
     )

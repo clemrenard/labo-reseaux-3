@@ -19,18 +19,19 @@ exports.connectUser = (req, res) => {
             }
         });
         if(user == null){
+            winstonLogError(`Attempt to connect with a non-existent user : ${body.mail}`);
             res.status(404).send('This user does not exist');
         } else {
             bcrypt.compare(body.password, user.password, function (error, result) {
                 if (error) {
                     winstonLogError(error);
-                    res.status(500).send(error + '. Please contact the webmaster')
+                    res.status(500).send(`${error}. Please contact the webmaster`);
                 } else if (result) {
                     const token = jwt.sign({ user_id: user.id, user_role: user.role }, process.env.ACCESS_TOKEN_SECRET);
-                    res.status(200).json({ token, role: user.role })
+                    res.status(200).json({ token, role: user.role });
                 } else {
                     winstonLogError(`'Invalid authentication': ${body.mail} | ${body.password}`);
-                    res.status(403).send('Invalid authentication')
+                    res.status(403).send('Invalid authentication');
                 }
             });
         }
@@ -45,7 +46,7 @@ exports.fetchDataUser = (req, res) => {
         }
     });
     if(usr == null) {
-        winstonLogError("wrong cookie data");
+        winstonLogError("Attempt to connect with wrong cookie data");
         res.status(500).send('Wrong cookies data. Please contact the webmaster');
     } else {
         delete usr.password
@@ -56,16 +57,18 @@ exports.fetchDataUser = (req, res) => {
 exports.getVictory = (req, res) => {
     let usr;
     let usrList = [];
+
     data.forEach(el => {
         usr = _.cloneDeep(el)
         delete usr.password
         usrList.push(usr)
     });
-
+    winstonLogInfo(`The user ${usr.mail} has found the secret!`);
     res.status(200).json(usrList);
 }
 
 exports.fetchBlogMessages = (req, res) => {
+    winstonLogInfo(`Fetching ${blogMessages.length} blog messages`);
     res.status(200).json(blogMessages);
 }
 
