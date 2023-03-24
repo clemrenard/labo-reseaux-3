@@ -49,6 +49,9 @@ class Index extends React.Component {
     window.location.href = "";
   }
 
+  blogRedirection(){
+    window.location.href = "http://localhost:3000/blog";
+  }
   fetchData() {
     axios.get(this.state.url + '/user', {
       headers: {
@@ -75,6 +78,9 @@ class Index extends React.Component {
       <>
         <div className={"w-full p-4"}>
             <button className={"rounded bg-blue-600 p-2 font-mono text-white"} onClick={this.logout}>logout</button>
+            <div className={"container mt-2"}>
+              <button className={"rounded bg-blue-600 p-2 font-mono text-white"} onClick={this.blogRedirection}>blog</button>
+            </div>
             <div className={"container mx-auto p-8"}>
               <div className={"w-80 mx-auto rounded bg-blue-400 p-4 font-mono"}>
                 Ravi de te voir <span className={"text-white font-bold"}>{this.state.mail}</span>,
