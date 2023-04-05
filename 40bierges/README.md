@@ -9,7 +9,7 @@
     RewriteRule ^ - [L]
     RewriteRule ^ ./index.html
     
-Procédure d'exécution:
+## Procédure d'exécution:
 1. lancez l'api 
 2. ouvrez un second terminal et tapez la ligne de commande suivante: npx tailwindcss -i ./src/assets/css/main.css -o ./src/assets/css/site.css --watch
 1. lancez 40bierges
