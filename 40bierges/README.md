@@ -9,11 +9,8 @@
     RewriteRule ^ - [L]
     RewriteRule ^ ./index.html
     
-    Comment lancé:
-    
-    1 lancez l'api
-    
-    2 ouvrir un second terminal et tapez la ligne de commande suivante: npx tailwindcss -i ./src/assets/css/main.css -o ./src/assets/css/site.css --watch
-    
-    3 lancez 40bierges
+    Procédure d'exécution:
+        1. lancez l'api  
+        2. ouvrez un second terminal et tapez la ligne de commande suivante: npx tailwindcss -i ./src/assets/css/main.css -o ./src/assets/css/site.css --watch
+        3. lancez 40bierges
    
